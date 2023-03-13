@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+
+  restaurant Restaurant[]
+
+  @@map("users")
+}
+
+model Restaurant {
+  id String @id @default(uuid())
+
+  name          String
+  address       String
+  opening_hour  String
+  profile_photo String?
+
+  user_id String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+
+  user              User                @relation(fields: [user_id], references: [id])
+  restaurantProduct RestaurantProduct[]
+
+  @@map("restaurants")
+}
+
+model RestaurantProduct {
+  id String @id @default(uuid())
+
+  name          String
+  price         Int
+  profile_photo String?
+  on_promotion  Boolean @default(false)
+
+  product_category_id  String
+  restaurant_id        String
+  product_promocion_id String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+
+  restaurant       Restaurant        @relation(fields: [restaurant_id], references: [id])
+  productCategory  ProductCategory   @relation(fields: [product_category_id], references: [id])
+  productPromocion ProductPromocion? @relation(fields: [product_promocion_id], references: [id])
+
+  @@map("restaurant_products")
+}
+
+model ProductCategory {
+  id String @id @default(uuid())
+
+  name String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+
+  restaurantProduct RestaurantProduct[]
+
+  @@map("product_category")
+}
+
+model ProductPromocion {
+  id String @id @default(uuid())
+
+  description          String
+  promotional_price    String
+  start_promotion_date DateTime
+  end_promotion_date   DateTime
+  is_closed            Boolean
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+
+  restaurantProduct RestaurantProduct[]
+
+  @@map("product_promotion")
+}
