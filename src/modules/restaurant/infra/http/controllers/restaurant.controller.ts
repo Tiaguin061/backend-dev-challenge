@@ -42,7 +42,7 @@ export class RestaurantController {
       name: zod.string({ required_error: 'name is required' }),
       address: zod.string({ required_error: 'address is required' }),
       opening_hour: zod.string({ required_error: 'opening_hour is required' }),
-      profile_photo: zod.string().optional().nullable(),
+      profile_photo: zod.object({}).optional().nullable(),
       user_id: zod.string({ required_error: 'user_id is required' }),
     });
 
@@ -77,7 +77,7 @@ export class RestaurantController {
       name: zod.string({ required_error: 'name is required' }),
       address: zod.string({ required_error: 'address is required' }),
       opening_hour: zod.string({ required_error: 'opening_hour is required' }),
-      profile_photo: zod.string().optional().nullable(),
+      profile_photo: zod.object({}).optional().nullable(),
       user_id: zod.string({ required_error: 'user_id is required' }),
     });
 
