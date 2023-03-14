@@ -10,7 +10,7 @@ import { RestaurantRepository } from '../../domain/repositories/restaurant-repos
 let inMemoryRestaurantRepository: RestaurantRepository;
 let listUniqueRestaurantService: AbstractListUniqueRestaurantService;
 
-describe('list-unique-restaurants', () => {
+describe('list-unique-restaurant', () => {
   beforeEach(() => {
     inMemoryRestaurantRepository = new InMemoryRestaurantRepository();
     listUniqueRestaurantService = new ListUniqueRestaurantService(
@@ -45,5 +45,11 @@ describe('list-unique-restaurants', () => {
     );
 
     expect(restaurant.id);
+  });
+
+  it('should be able to show an error if restaurant does not exist', async () => {
+    await expect(
+      listUniqueRestaurantService.execute('fake-id'),
+    ).rejects.toBeInstanceOf(BadRequestException);
   });
 });
