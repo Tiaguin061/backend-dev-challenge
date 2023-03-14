@@ -1,16 +1,36 @@
 import { IRestaurant, Restaurant } from '../../domain/entities/restaurant';
 
 import { RestaurantRepository } from '../../domain/repositories/restaurant-repository';
+import { UpdateUniqueRestaurantData } from '../../domain/services/types';
 
 export class InMemoryRestaurantRepository implements RestaurantRepository {
   private restaurants: IRestaurant[] = [];
 
   async create(restaurantData: IRestaurant): Promise<IRestaurant> {
-    const restaurant = new Restaurant(restaurantData);
+    const restaurant = new Restaurant(restaurantData).restaurant;
 
     this.restaurants.push(restaurant);
 
     return restaurant;
+  }
+
+  async updateUnique({
+    data,
+    restaurant_id,
+  }: UpdateUniqueRestaurantData): Promise<IRestaurant | null> {
+    const foundRestaurant = this.restaurants.find(
+      (where) => where.id === restaurant_id,
+    );
+
+    if (!foundRestaurant) {
+      return null;
+    }
+
+    const restaurantUpdated = new Restaurant(data).restaurant;
+
+    this.restaurants.push(restaurantUpdated);
+
+    return restaurantUpdated;
   }
 
   async listMany(): Promise<IRestaurant[]> {
