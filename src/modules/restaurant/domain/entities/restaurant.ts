@@ -10,7 +10,7 @@ type RestaurantPropsOmittedCommons = {
   profile_photo?: string | null;
   user_id: string;
 
-  profile_photo_file?: File.CustomFile;
+  profile_photo_file?: CustomFile.File;
 };
 
 type RestaurantProps = RestaurantPropsOmittedCommons & RestaurantCommons;

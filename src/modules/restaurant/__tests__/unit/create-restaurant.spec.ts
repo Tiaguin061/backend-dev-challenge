@@ -52,7 +52,7 @@ describe('create-restaurant', () => {
       profile_photo_file: {
         buffer,
         originalname: 'profile_photo.png',
-      } as File.CustomFile,
+      } as CustomFile.File,
     });
 
     expect(saveFile).toHaveBeenCalledWith({

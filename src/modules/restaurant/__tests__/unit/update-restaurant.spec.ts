@@ -83,7 +83,7 @@ describe('update-restaurant', () => {
         profile_photo_file: {
           buffer,
           originalname: 'new_profile_photo.png',
-        } as File.CustomFile,
+        } as CustomFile.File,
       },
     });
 
@@ -117,7 +117,7 @@ describe('update-restaurant', () => {
         profile_photo_file: {
           buffer,
           originalname: 'new_profile_photo.png',
-        } as File.CustomFile,
+        } as CustomFile.File,
       },
     });
 
