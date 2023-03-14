@@ -1,0 +1,49 @@
+import { describe, expect, it } from '@jest/globals';
+
+import { AbstractListUniqueRestaurantService } from '../../domain/services/restaurant-services';
+import { BadRequestException } from '@nestjs/common';
+import { InMemoryRestaurantRepository } from '../inMemory/restaurant-repository';
+import { ListUniqueRestaurantService } from '../../services/list-unique-restaurant.service';
+import { Restaurant } from '../../domain/entities/restaurant';
+import { RestaurantRepository } from '../../domain/repositories/restaurant-repository';
+
+let inMemoryRestaurantRepository: RestaurantRepository;
+let listUniqueRestaurantService: AbstractListUniqueRestaurantService;
+
+describe('list-unique-restaurants', () => {
+  beforeEach(() => {
+    inMemoryRestaurantRepository = new InMemoryRestaurantRepository();
+    listUniqueRestaurantService = new ListUniqueRestaurantService(
+      inMemoryRestaurantRepository,
+    );
+  });
+
+  it("should be able to show an error if the restaurant doesn't exist", async () => {
+    await expect(
+      listUniqueRestaurantService.execute('fake-restaurant-id'),
+    ).rejects.toBeInstanceOf(BadRequestException);
+  });
+
+  it('should be able list a unique restaurant', async () => {
+    const fakeRestaurant = new Restaurant({
+      name: 'fake-name',
+      address: 'fake-address',
+      opening_hour: 'fake-opening_hour',
+      user_id: 'fake-user_id',
+    }).restaurant;
+
+    const restaurantCreated = await inMemoryRestaurantRepository.create(
+      fakeRestaurant,
+    );
+
+    const foundRestaurant = await inMemoryRestaurantRepository.findUniqueById(
+      restaurantCreated.id,
+    );
+
+    const restaurant = await listUniqueRestaurantService.execute(
+      foundRestaurant.id,
+    );
+
+    expect(restaurant.id);
+  });
+});
