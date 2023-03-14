@@ -46,19 +46,19 @@ export class RestaurantController {
       user_id: zod.string({ required_error: 'user_id is required' }),
     });
 
-    const _data = {
-      ...data,
-      profile_photo_buffer: profile_photo ? profile_photo.buffer : null,
-      profile_photo: profile_photo ? profile_photo.originalname : null,
-    };
-
     try {
-      validator.parse(_data);
+      validator.parse({
+        ...data,
+        profile_photo,
+      });
     } catch (error) {
       throw new BadRequestException(error.errors);
     }
 
-    const restaurant = await this.createRestaurantService.execute(_data);
+    const restaurant = await this.createRestaurantService.execute({
+      ...data,
+      profile_photo_file: profile_photo,
+    });
 
     return response.status(201).json(restaurant);
   }
@@ -81,15 +81,9 @@ export class RestaurantController {
       user_id: zod.string({ required_error: 'user_id is required' }),
     });
 
-    const _data = {
-      ...data,
-      profile_photo_buffer: profile_photo ? profile_photo.buffer : null,
-      profile_photo: profile_photo ? profile_photo.originalname : null,
-    };
-
     try {
       validator.parse({
-        ..._data,
+        ...data,
         restaurant_id,
       });
     } catch (error) {
@@ -97,7 +91,10 @@ export class RestaurantController {
     }
 
     const restaurant = await this.updateUniqueRestaurantService.execute({
-      data: _data,
+      data: {
+        ...data,
+        profile_photo_file: profile_photo,
+      },
       restaurant_id,
     });
 

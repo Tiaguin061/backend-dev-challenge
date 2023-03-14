@@ -12,17 +12,17 @@ export class CreateRestaurantService
     private restaurantRepository: RestaurantRepository,
     private storageProvider: StorageProvider,
   ) {}
-  async execute({ profile_photo_buffer, ...data }: IRestaurant) {
-    const { profile_photo } = data;
+  async execute(data: IRestaurant) {
+    const { profile_photo_file, ..._data } = data;
 
-    if (profile_photo) {
-      data.profile_photo = await this.storageProvider.saveFile({
-        filename: profile_photo,
-        buffer: profile_photo_buffer,
+    if (profile_photo_file) {
+      _data.profile_photo = await this.storageProvider.saveFile({
+        filename: profile_photo_file.originalname,
+        buffer: profile_photo_file.buffer,
       });
     }
 
-    const restaurant = await this.restaurantRepository.create(data);
+    const restaurant = await this.restaurantRepository.create(_data);
 
     return restaurant;
   }
