@@ -40,21 +40,24 @@ describe('create-restaurant', () => {
       name: 'fake-name',
       address: 'fake-address',
       opening_hour: 'fake-opening_hour',
-      profile_photo: 'fake-profile_photo.png',
       user_id: 'fake-user_id',
     }).restaurant;
 
-    if (fakeRestaurant.profile_photo) {
-      let buffer: Buffer;
+    const saveFile = jest.spyOn(inMemoryStorageProvider, 'saveFile');
 
-      fakeRestaurant.profile_photo = await inMemoryStorageProvider.saveFile({
+    let buffer: Buffer;
+
+    await createRestaurantService.execute({
+      ...fakeRestaurant,
+      profile_photo_file: {
         buffer,
-        filename: fakeRestaurant.profile_photo,
-      });
-    }
+        originalname: 'profile_photo.png',
+      } as File.CustomFile,
+    });
 
-    const restaurant = await createRestaurantService.execute(fakeRestaurant);
-
-    expect(restaurant.id);
+    expect(saveFile).toHaveBeenCalledWith({
+      buffer,
+      filename: 'profile_photo.png',
+    });
   });
 });

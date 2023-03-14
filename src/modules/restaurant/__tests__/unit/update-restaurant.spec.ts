@@ -74,15 +74,18 @@ describe('update-restaurant', () => {
 
     const updateFile = jest.spyOn(inMemoryStorageProvider, 'updateFile');
 
+    let buffer: Buffer;
+
     await updateUniqueRestaurantService.execute({
       restaurant_id: restaurantCreated.id,
       data: {
         ...restaurantCreated,
-        profile_photo: 'new_profile_photo.png',
+        profile_photo_file: {
+          buffer,
+          originalname: 'new_profile_photo.png',
+        } as File.CustomFile,
       },
     });
-
-    let buffer: Buffer;
 
     expect(updateFile).toHaveBeenCalledWith({
       newFilename: 'new_profile_photo.png',
@@ -105,15 +108,18 @@ describe('update-restaurant', () => {
 
     const saveFile = jest.spyOn(inMemoryStorageProvider, 'saveFile');
 
+    let buffer: Buffer;
+
     await updateUniqueRestaurantService.execute({
       restaurant_id: restaurantCreated.id,
       data: {
         ...restaurantCreated,
-        profile_photo: 'new_profile_photo.png',
+        profile_photo_file: {
+          buffer,
+          originalname: 'new_profile_photo.png',
+        } as File.CustomFile,
       },
     });
-
-    let buffer: Buffer;
 
     expect(saveFile).toHaveBeenCalledWith({
       buffer,
