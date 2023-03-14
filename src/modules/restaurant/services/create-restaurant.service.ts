@@ -1,10 +1,13 @@
+import { AbstractCreateRestaurantService } from '../domain/services/restaurant-services';
 import { IRestaurant } from '../domain/entities/restaurant';
 import { Injectable } from '@nestjs/common';
 import { RestaurantRepository } from '../domain/repositories/restaurant-repository';
 import { StorageProvider } from '../../../shared/providers/storageProvider/models/storage-provider';
 
 @Injectable()
-export class CreateRestaurantService {
+export class CreateRestaurantService
+  implements AbstractCreateRestaurantService
+{
   constructor(
     private restaurantRepository: RestaurantRepository,
     private storageProvider: StorageProvider,
