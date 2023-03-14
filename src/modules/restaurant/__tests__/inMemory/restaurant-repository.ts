@@ -8,10 +8,16 @@ export class InMemoryRestaurantRepository implements RestaurantRepository {
   async create(restaurantData: IRestaurant): Promise<IRestaurant> {
     const restaurant = new Restaurant(restaurantData);
 
-    Object.assign(restaurant, restaurantData);
-
     this.restaurants.push(restaurant);
 
     return restaurant;
+  }
+
+  async listMany(): Promise<IRestaurant[]> {
+    return this.restaurants;
+  }
+
+  async findUniqueById(restaurant_id: string): Promise<IRestaurant | null> {
+    return this.restaurants.find((where) => where.id === restaurant_id);
   }
 }
