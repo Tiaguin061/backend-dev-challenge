@@ -13,7 +13,10 @@ export class UpdateUniqueRestaurantService
     private restaurantRepository: RestaurantRepository,
     private storageProvider: StorageProvider,
   ) {}
-  async execute({ data, restaurant_id }: UpdateUniqueRestaurantData) {
+  async execute({
+    data: { profile_photo_buffer, ...data },
+    restaurant_id,
+  }: UpdateUniqueRestaurantData) {
     const foundRestaurant = await this.restaurantRepository.findUniqueById(
       restaurant_id,
     );
@@ -23,16 +26,16 @@ export class UpdateUniqueRestaurantService
     }
 
     if (foundRestaurant.profile_photo) {
-      await this.storageProvider.updateFile({
+      data.profile_photo = await this.storageProvider.updateFile({
         newFilename: data.profile_photo,
         oldFilename: foundRestaurant.profile_photo,
-        newFilenameBuffer: data.profile_photo_buffer,
+        newFilenameBuffer: profile_photo_buffer,
       });
     }
 
     if (!foundRestaurant.profile_photo && data.profile_photo) {
-      await this.storageProvider.saveFile({
-        buffer: data.profile_photo_buffer,
+      data.profile_photo = await this.storageProvider.saveFile({
+        buffer: profile_photo_buffer,
         filename: data.profile_photo,
       });
     }
