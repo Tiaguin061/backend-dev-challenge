@@ -1,4 +1,8 @@
-import { SaveFileInput, StorageProvider } from '../models/storage-provider';
+import {
+  SaveFileInput,
+  StorageProvider,
+  UpdateFileInput,
+} from '../models/storage-provider';
 
 import crypto from 'crypto';
 import fs from 'fs';
@@ -27,5 +31,27 @@ export class DiskStorageProvider implements StorageProvider {
     }
 
     await fs.promises.unlink(filePath);
+  }
+
+  async updateFile({
+    newFilename,
+    newFilenameBuffer,
+    oldFilename,
+  }: UpdateFileInput): Promise<string> {
+    const filePath = path.resolve(
+      storageConfig.config.disk.paths.uploadsFolder,
+      oldFilename,
+    );
+
+    await fs.promises.unlink(filePath);
+
+    const id = crypto.randomUUID();
+
+    await fs.promises.writeFile(
+      `./tmp/uploads/${id}-${newFilename}`,
+      newFilenameBuffer,
+    );
+
+    return `${id}-${newFilename}`;
   }
 }
