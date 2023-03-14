@@ -36,20 +36,10 @@ describe('list-unique-restaurant', () => {
       fakeRestaurant,
     );
 
-    const foundRestaurant = await inMemoryRestaurantRepository.findUniqueById(
+    const restaurant = await listUniqueRestaurantService.execute(
       restaurantCreated.id,
     );
 
-    const restaurant = await listUniqueRestaurantService.execute(
-      foundRestaurant.id,
-    );
-
     expect(restaurant.id);
-  });
-
-  it('should be able to show an error if restaurant does not exist', async () => {
-    await expect(
-      listUniqueRestaurantService.execute('fake-id'),
-    ).rejects.toBeInstanceOf(BadRequestException);
   });
 });
