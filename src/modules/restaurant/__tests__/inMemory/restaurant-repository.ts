@@ -14,6 +14,20 @@ export class InMemoryRestaurantRepository implements RestaurantRepository {
     return restaurant;
   }
 
+  async deleteUniqueById(restaurant_id: string): Promise<void> {
+    const foundRestaurant = this.restaurants.find(
+      (where) => where.id === restaurant_id,
+    );
+
+    if (!foundRestaurant) {
+      return null;
+    }
+
+    this.restaurants.filter((where) => where.id !== restaurant_id);
+
+    return;
+  }
+
   async updateUnique({
     data,
     restaurant_id,

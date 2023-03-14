@@ -11,6 +11,10 @@ export abstract class AbstractUpdateUniqueRestaurantService {
   ): Promise<IRestaurant>;
 }
 
+export abstract class AbstractDeleteUniqueRestaurantService {
+  public abstract execute(restaurant_id: string): Promise<void>;
+}
+
 export abstract class AbstractListRestaurantsService {
   public abstract execute(): Promise<IRestaurant[]>;
 }

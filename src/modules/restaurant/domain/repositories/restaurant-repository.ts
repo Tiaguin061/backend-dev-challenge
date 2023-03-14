@@ -6,6 +6,7 @@ export abstract class RestaurantRepository {
   public abstract updateUnique(
     data: UpdateUniqueRestaurantData,
   ): Promise<IRestaurant | null>;
+  public abstract deleteUniqueById(restaurant_id: string): Promise<void>;
 
   public abstract listMany(): Promise<IRestaurant[]>;
 
