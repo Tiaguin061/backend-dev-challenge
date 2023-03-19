@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
-import { AbstractDeleteUniqueRestaurantService } from '../domain/services/restaurant-services';
-import { RestaurantRepository } from '../domain/repositories/restaurant-repository';
-import { StorageProvider } from '../../../shared/providers/storageProvider/models/storage-provider';
+import { AbstractDeleteUniqueRestaurantService } from '@root/modules/restaurant/domain/services/restaurant-services';
+import { RestaurantRepository } from '@root/modules/restaurant/domain/repositories/restaurant-repository';
+import { StorageProvider } from '@root/shared/providers/storageProvider/models/storage-provider';
 
 @Injectable()
 export class DeleteUniqueRestaurantService

@@ -16,11 +16,11 @@ import { IRestaurant } from '../../../domain/entities/restaurant';
 import { CreateRestaurantService } from '../../../services/create-restaurant.service';
 import { BadRequestException } from '@nestjs/common/exceptions';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ListUniqueRestaurantService } from 'src/modules/restaurant/services/list-unique-restaurant.service';
+import { ListUniqueRestaurantService } from '@root/modules/restaurant/services/list-unique-restaurant.service';
 import { Response } from 'express';
-import { ListRestaurantsService } from 'src/modules/restaurant/services/list-restaurants.service';
-import { UpdateUniqueRestaurantService } from 'src/modules/restaurant/services/update-unique-restaurant.service';
-import { DeleteUniqueRestaurantService } from 'src/modules/restaurant/services/delete-unique-restaurant.service';
+import { ListRestaurantsService } from '@root/modules/restaurant/services/list-restaurants.service';
+import { UpdateUniqueRestaurantService } from '@root/modules/restaurant/services/update-unique-restaurant.service';
+import { DeleteUniqueRestaurantService } from '@root/modules/restaurant/services/delete-unique-restaurant.service';
 
 @Controller()
 export class RestaurantController {

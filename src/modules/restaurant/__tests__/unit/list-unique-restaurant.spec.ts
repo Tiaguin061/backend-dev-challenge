@@ -2,9 +2,9 @@ import { describe, expect, it } from '@jest/globals';
 
 import { AbstractListUniqueRestaurantService } from '../../domain/services/restaurant-services';
 import { BadRequestException } from '@nestjs/common';
+import { IRestaurantProps } from '../../domain/entities/restaurant';
 import { InMemoryRestaurantRepository } from '../inMemory/restaurant-repository';
 import { ListUniqueRestaurantService } from '../../services/list-unique-restaurant.service';
-import { Restaurant } from '../../domain/entities/restaurant';
 import { RestaurantRepository } from '../../domain/repositories/restaurant-repository';
 
 let inMemoryRestaurantRepository: RestaurantRepository;
@@ -25,12 +25,12 @@ describe('list-unique-restaurant', () => {
   });
 
   it('should be able list a unique restaurant', async () => {
-    const fakeRestaurant = new Restaurant({
+    const fakeRestaurant: IRestaurantProps = {
       name: 'fake-name',
       address: 'fake-address',
       opening_hour: 'fake-opening_hour',
       user_id: 'fake-user_id',
-    }).restaurant;
+    };
 
     const restaurantCreated = await inMemoryRestaurantRepository.create(
       fakeRestaurant,

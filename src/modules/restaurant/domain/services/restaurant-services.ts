@@ -1,5 +1,5 @@
 import { IRestaurant } from '../entities/restaurant';
-import { UpdateUniqueRestaurantData } from './types';
+import { UpdateUniqueRestaurantServiceData } from './types';
 
 export abstract class AbstractCreateRestaurantService {
   public abstract execute(data: IRestaurant): Promise<IRestaurant>;
@@ -7,7 +7,7 @@ export abstract class AbstractCreateRestaurantService {
 
 export abstract class AbstractUpdateUniqueRestaurantService {
   public abstract execute(
-    data: UpdateUniqueRestaurantData,
+    data: UpdateUniqueRestaurantServiceData,
   ): Promise<IRestaurant>;
 }
 

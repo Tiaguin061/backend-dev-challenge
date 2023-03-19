@@ -1,9 +1,10 @@
-import { EntityCommons } from 'src/shared/types/common-entities';
+import { EntityCommons } from '@root/shared/types/common-entities';
+import { IRestaurantProduct } from '@root/modules/restaurant-products/domain/entities/restaurant-product';
 import { randomUUID } from 'node:crypto';
 
-type RestaurantCommons = Partial<EntityCommons>;
+export type RestaurantCommons = Partial<EntityCommons>;
 
-type RestaurantPropsOmittedCommons = {
+export interface IRestaurantProps {
   name: string;
   address: string;
   opening_hour: string;
@@ -11,16 +12,17 @@ type RestaurantPropsOmittedCommons = {
   user_id: string;
 
   profile_photo_file?: CustomFile.File;
-};
 
-type RestaurantProps = RestaurantPropsOmittedCommons & RestaurantCommons;
+  restaurantProduct?: IRestaurantProduct[];
+}
 
-export type IRestaurant = RestaurantProps;
+// export type IRestaurant = RestaurantProps & RestaurantCommons;
+export interface IRestaurant extends IRestaurantProps, RestaurantCommons {}
 
 export class Restaurant implements IRestaurant {
   private _id: string;
 
-  private _props: RestaurantProps;
+  private _props: IRestaurant;
 
   get restaurant(): IRestaurant {
     return {
@@ -57,10 +59,11 @@ export class Restaurant implements IRestaurant {
     return this._props.user_id;
   }
 
-  constructor(
-    props: RestaurantPropsOmittedCommons,
-    commons?: RestaurantCommons,
-  ) {
+  get restaurantProduct(): IRestaurantProduct[] {
+    return this._props.restaurantProduct;
+  }
+
+  constructor(props: IRestaurantProps, commons?: RestaurantCommons) {
     this._id = commons?.id || randomUUID();
 
     this._props = {

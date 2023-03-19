@@ -1,6 +1,20 @@
-import { IRestaurant } from '../entities/restaurant';
-
-export interface UpdateUniqueRestaurantData {
+export interface UpdateUniqueRestaurantServiceData {
   restaurant_id: string;
-  data: IRestaurant;
+  data: {
+    name: string;
+    address: string;
+    opening_hour: string;
+    user_id: string;
+
+    profile_photo_file?: CustomFile.File;
+  };
+}
+
+export interface CreateRestaurantServiceData {
+  name: string;
+  address: string;
+  opening_hour: string;
+  user_id: string;
+
+  profile_photo_file?: CustomFile.File;
 }

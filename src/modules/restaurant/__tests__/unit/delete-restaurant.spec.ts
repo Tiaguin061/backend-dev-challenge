@@ -3,11 +3,11 @@ import { describe, expect, it } from '@jest/globals';
 import { AbstractDeleteUniqueRestaurantService } from '../../domain/services/restaurant-services';
 import { BadRequestException } from '@nestjs/common';
 import { DeleteUniqueRestaurantService } from '../../services/delete-unique-restaurant.service';
+import { IRestaurantProps } from '../../domain/entities/restaurant';
 import { InMemoryRestaurantRepository } from '../inMemory/restaurant-repository';
 import { InMemoryStorageProvider } from '../inMemory/storage-provider';
-import { Restaurant } from '../../domain/entities/restaurant';
 import { RestaurantRepository } from '../../domain/repositories/restaurant-repository';
-import { StorageProvider } from 'src/shared/providers/storageProvider/models/storage-provider';
+import { StorageProvider } from '@root/shared/providers/storageProvider/models/storage-provider';
 
 let inMemoryRestaurantRepository: RestaurantRepository;
 let deleteUniqueRestaurantService: AbstractDeleteUniqueRestaurantService;
@@ -30,12 +30,12 @@ describe('delete-unique-restaurant', () => {
   });
 
   it('should be able delete a unique restaurant without profile_photo', async () => {
-    const fakeRestaurant = new Restaurant({
+    const fakeRestaurant: IRestaurantProps = {
       name: 'fake-name',
       address: 'fake-address',
       opening_hour: 'fake-opening_hour',
       user_id: 'fake-user_id',
-    }).restaurant;
+    };
 
     const restaurantCreated = await inMemoryRestaurantRepository.create(
       fakeRestaurant,
@@ -54,13 +54,13 @@ describe('delete-unique-restaurant', () => {
   });
 
   it('should be able delete a unique restaurant with profile_photo', async () => {
-    const fakeRestaurant = new Restaurant({
+    const fakeRestaurant: IRestaurantProps = {
       name: 'fake-name',
       address: 'fake-address',
       opening_hour: 'fake-opening_hour',
       user_id: 'fake-user_id',
       profile_photo: 'profile_photo.png',
-    }).restaurant;
+    };
 
     const restaurantCreated = await inMemoryRestaurantRepository.create(
       fakeRestaurant,

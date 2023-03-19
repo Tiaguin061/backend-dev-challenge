@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Restaurant } from '@prisma/client';
-import { RestaurantRepository } from 'src/modules/restaurant/domain/repositories/restaurant-repository';
-import { UpdateUniqueRestaurantData } from 'src/modules/restaurant/domain/services/types';
-import { prisma } from 'src/shared/infra/database/prisma/client';
+import { RestaurantRepository } from '@root/modules/restaurant/domain/repositories/restaurant-repository';
+import { UpdateUniqueRestaurantData } from '@root/modules/restaurant/domain/services/types';
+import { prisma } from '@root/shared/infra/database/prisma/client';
 
 @Injectable()
 export class PrismaRestaurantRepository implements RestaurantRepository {

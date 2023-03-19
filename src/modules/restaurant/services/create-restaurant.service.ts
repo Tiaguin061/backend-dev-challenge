@@ -1,8 +1,8 @@
-import { AbstractCreateRestaurantService } from '../domain/services/restaurant-services';
-import { IRestaurant } from '../domain/entities/restaurant';
+import { AbstractCreateRestaurantService } from '@root/modules/restaurant/domain/services/restaurant-services';
+import { CreateRestaurantServiceData } from '@root/modules/restaurant/domain/services/types';
 import { Injectable } from '@nestjs/common';
-import { RestaurantRepository } from '../domain/repositories/restaurant-repository';
-import { StorageProvider } from '../../../shared/providers/storageProvider/models/storage-provider';
+import { RestaurantRepository } from '@root/modules/restaurant/domain/repositories/restaurant-repository';
+import { StorageProvider } from '@root/shared/providers/storageProvider/models/storage-provider';
 
 @Injectable()
 export class CreateRestaurantService
@@ -12,17 +12,22 @@ export class CreateRestaurantService
     private restaurantRepository: RestaurantRepository,
     private storageProvider: StorageProvider,
   ) {}
-  async execute(data: IRestaurant) {
+  async execute(data: CreateRestaurantServiceData) {
     const { profile_photo_file, ..._data } = data;
 
+    let profile_photo = null;
+
     if (profile_photo_file) {
-      _data.profile_photo = await this.storageProvider.saveFile({
+      profile_photo = await this.storageProvider.saveFile({
         filename: profile_photo_file.originalname,
         buffer: profile_photo_file.buffer,
       });
     }
 
-    const restaurant = await this.restaurantRepository.create(_data);
+    const restaurant = await this.restaurantRepository.create({
+      ..._data,
+      profile_photo,
+    });
 
     return restaurant;
   }

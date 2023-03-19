@@ -2,11 +2,11 @@ import { describe, expect, it } from '@jest/globals';
 
 import { AbstractCreateRestaurantService } from '../../domain/services/restaurant-services';
 import { CreateRestaurantService } from '../../services/create-restaurant.service';
+import { IRestaurantProps } from '../../domain/entities/restaurant';
 import { InMemoryRestaurantRepository } from '../inMemory/restaurant-repository';
 import { InMemoryStorageProvider } from '../inMemory/storage-provider';
-import { Restaurant } from '../../domain/entities/restaurant';
 import { RestaurantRepository } from '../../domain/repositories/restaurant-repository';
-import { StorageProvider } from 'src/shared/providers/storageProvider/models/storage-provider';
+import { StorageProvider } from '@root/shared/providers/storageProvider/models/storage-provider';
 
 let inMemoryRestaurantRepository: RestaurantRepository;
 let inMemoryStorageProvider: StorageProvider;
@@ -23,12 +23,12 @@ describe('create-restaurant', () => {
   });
 
   it('should be able to create a new restaurant without profile_photo', async () => {
-    const fakeRestaurant = new Restaurant({
+    const fakeRestaurant: IRestaurantProps = {
       name: 'fake-name',
       address: 'fake-address',
       opening_hour: 'fake-opening_hour',
       user_id: 'fake-user_id',
-    }).restaurant;
+    };
 
     const restaurant = await createRestaurantService.execute(fakeRestaurant);
 
@@ -36,12 +36,12 @@ describe('create-restaurant', () => {
   });
 
   it('should be able create a new restaurant with phofile_photo', async () => {
-    const fakeRestaurant = new Restaurant({
+    const fakeRestaurant: IRestaurantProps = {
       name: 'fake-name',
       address: 'fake-address',
       opening_hour: 'fake-opening_hour',
       user_id: 'fake-user_id',
-    }).restaurant;
+    };
 
     const saveFile = jest.spyOn(inMemoryStorageProvider, 'saveFile');
 

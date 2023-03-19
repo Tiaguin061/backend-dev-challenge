@@ -2,7 +2,7 @@ import {
   SaveFileInput,
   StorageProvider,
   UpdateFileInput,
-} from 'src/shared/providers/storageProvider/models/storage-provider';
+} from '@root/shared/providers/storageProvider/models/storage-provider';
 
 import crypto from 'crypto';
 
@@ -13,6 +13,7 @@ export class InMemoryStorageProvider implements StorageProvider {
     return `${id}-${filename}`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async deleteFile(filename: string): Promise<void> {
     return;
   }

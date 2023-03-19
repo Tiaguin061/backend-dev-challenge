@@ -1,6 +1,6 @@
-import { AbstractListRestaurantsService } from '../domain/services/restaurant-services';
+import { AbstractListRestaurantsService } from '@root/modules/restaurant/domain/services/restaurant-services';
 import { Injectable } from '@nestjs/common';
-import { RestaurantRepository } from '../domain/repositories/restaurant-repository';
+import { RestaurantRepository } from '@root/modules/restaurant/domain/repositories/restaurant-repository';
 
 @Injectable()
 export class ListRestaurantsService implements AbstractListRestaurantsService {

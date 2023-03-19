@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
-import { AbstractListUniqueRestaurantService } from '../domain/services/restaurant-services';
-import { IRestaurant } from '../domain/entities/restaurant';
-import { RestaurantRepository } from '../domain/repositories/restaurant-repository';
+import { AbstractListUniqueRestaurantService } from '@root/modules/restaurant/domain/services/restaurant-services';
+import { IRestaurant } from '@root/modules/restaurant/domain/entities/restaurant';
+import { RestaurantRepository } from '@root/modules/restaurant/domain/repositories/restaurant-repository';
 
 @Injectable()
 export class ListUniqueRestaurantService
