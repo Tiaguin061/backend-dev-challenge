@@ -16,7 +16,6 @@ export interface IRestaurantProps {
   restaurantProduct?: IRestaurantProduct[];
 }
 
-// export type IRestaurant = RestaurantProps & RestaurantCommons;
 export interface IRestaurant extends IRestaurantProps, RestaurantCommons {}
 
 export class Restaurant implements IRestaurant {
