@@ -13,7 +13,7 @@ export interface IRestaurantProps {
 
   profile_photo_file?: CustomFile.File;
 
-  restaurantProduct?: IRestaurantProduct[];
+  restaurantProducts?: IRestaurantProduct[];
 }
 
 export interface IRestaurant extends IRestaurantProps, RestaurantCommons {}
@@ -58,8 +58,8 @@ export class Restaurant implements IRestaurant {
     return this._props.user_id;
   }
 
-  get restaurantProduct(): IRestaurantProduct[] {
-    return this._props.restaurantProduct;
+  get restaurantProducts(): IRestaurantProduct[] {
+    return this._props.restaurantProducts;
   }
 
   constructor(props: IRestaurantProps, commons?: RestaurantCommons) {
