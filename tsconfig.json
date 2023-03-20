@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "declaration": true,
     "removeComments": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2017",
+    "target": "ES2020",
+    "lib": ["ES2020"],
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "incremental": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
@@ -17,6 +18,13 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "strictPropertyInitialization": false,
+    "resolveJsonModule": true,
+
+    "paths": {
+      "@root/*": ["*"],
+    },
+  },
 }
