@@ -7,7 +7,7 @@ import {
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
-import { storageConfig } from 'src/config/storage';
+import { storageConfig } from '@root/config/storage';
 
 export class DiskStorageProvider implements StorageProvider {
   async saveFile({ buffer, filename }: SaveFileInput): Promise<string> {
