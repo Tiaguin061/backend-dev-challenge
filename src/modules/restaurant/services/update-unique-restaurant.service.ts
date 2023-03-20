@@ -23,17 +23,17 @@ export class UpdateUniqueRestaurantService
       throw new BadRequestException('Restaurant does not exist');
     }
 
-    let profile_photo: null | string = null;
+    let profile_photo: null | string = foundRestaurant.profile_photo;
 
-    if (foundRestaurant.profile_photo && profile_photo_file) {
+    if (profile_photo && profile_photo_file) {
       profile_photo = await this.storageProvider.updateFile({
         newFilename: profile_photo_file.originalname,
-        oldFilename: foundRestaurant.profile_photo,
+        oldFilename: profile_photo,
         newFilenameBuffer: profile_photo_file.buffer,
       });
     }
 
-    if (!foundRestaurant.profile_photo && profile_photo_file) {
+    if (!profile_photo && profile_photo_file) {
       profile_photo = await this.storageProvider.saveFile({
         buffer: profile_photo_file.buffer,
         filename: profile_photo_file.originalname,

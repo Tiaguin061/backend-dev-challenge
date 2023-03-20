@@ -68,13 +68,17 @@ describe('update-unique-restaurant', () => {
       profile_photo: 'profile_photo.png',
     };
 
-    const restaurantCreated = await createRestaurantService.execute(
-      fakeRestaurant,
-    );
+    let buffer: Buffer;
+
+    const restaurantCreated = await createRestaurantService.execute({
+      ...fakeRestaurant,
+      profile_photo_file: {
+        buffer,
+        originalname: fakeRestaurant.profile_photo,
+      } as CustomFile.File,
+    });
 
     const updateFile = jest.spyOn(inMemoryStorageProvider, 'updateFile');
-
-    let buffer: Buffer;
 
     await updateUniqueRestaurantService.execute({
       restaurant_id: restaurantCreated.id,
