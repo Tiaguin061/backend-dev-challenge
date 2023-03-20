@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Restaurant } from '@prisma/client';
 import { RestaurantRepository } from '@root/modules/restaurant/domain/repositories/restaurant-repository';
-import { UpdateUniqueRestaurantData } from '@root/modules/restaurant/domain/services/types';
+import { UpdateUniqueRestaurantRepositoryData } from '@root/modules/restaurant/domain/repositories/types';
 import { prisma } from '@root/shared/infra/database/prisma/client';
 
 @Injectable()
@@ -22,7 +22,10 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
     });
   }
 
-  async updateUnique({ data, restaurant_id }: UpdateUniqueRestaurantData) {
+  async updateUnique({
+    data,
+    restaurant_id,
+  }: UpdateUniqueRestaurantRepositoryData) {
     return prisma.restaurant.update({
       where: {
         id: restaurant_id,
