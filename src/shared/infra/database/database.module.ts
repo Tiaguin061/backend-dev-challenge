@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
-import { PrismaRestaurantRepository } from 'src/modules/restaurant/infra/database/prisma/repositories/restaurant-repository';
 import { PrismaService } from './prisma/prisma.service';
-import { RestaurantRepository } from 'src/modules/restaurant/domain/repositories/restaurant-repository';
+import { RestaurantDatabaseModule } from '@root/modules/restaurant/infra/database/database.module';
+import { RestaurantProductDatabaseModule } from '@root/modules/restaurant-products/infra/database/database.module';
+import { RestaurantProductPromotionDatabaseModule } from '@root/modules/restaurant-product-promotion/infra/database/database.module';
 
 @Module({
+  imports: [],
   providers: [
     PrismaService,
-    {
-      provide: RestaurantRepository,
-      useClass: PrismaRestaurantRepository,
-    },
+    RestaurantDatabaseModule,
+    RestaurantProductDatabaseModule,
+    RestaurantProductPromotionDatabaseModule,
   ],
-  exports: [RestaurantRepository],
+  exports: [],
 })
 export class DatabaseModule {}
