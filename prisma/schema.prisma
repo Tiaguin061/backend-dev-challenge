@@ -43,23 +43,21 @@ model RestaurantProduct {
   name          String
   price         Int
   profile_photo String?
-  on_promotion  Boolean @default(false)
 
-  product_category_id  String
-  restaurant_id        String
-  product_promocion_id String?
+  product_category_id String
+  restaurant_id       String
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
-  restaurant       Restaurant        @relation(fields: [restaurant_id], references: [id])
-  productCategory  ProductCategory   @relation(fields: [product_category_id], references: [id])
-  productPromocion ProductPromocion? @relation(fields: [product_promocion_id], references: [id])
+  restaurant                 Restaurant                   @relation(fields: [restaurant_id], references: [id])
+  productCategory            RestaurantProductCategory    @relation(fields: [product_category_id], references: [id])
+  restaurantProductPromocion RestaurantProductPromocion[]
 
   @@map("restaurant_products")
 }
 
-model ProductCategory {
+model RestaurantProductCategory {
   id String @id @default(uuid())
 
   name String
@@ -69,22 +67,22 @@ model ProductCategory {
 
   restaurantProduct RestaurantProduct[]
 
-  @@map("product_category")
+  @@map("restaurant_product_category")
 }
 
-model ProductPromocion {
+model RestaurantProductPromocion {
   id String @id @default(uuid())
 
-  description          String
-  promotional_price    String
-  start_promotion_date DateTime
-  end_promotion_date   DateTime
-  is_closed            Boolean
+  description           String
+  promotional_price     Int
+  start_promotion_date  DateTime
+  end_promotion_date    DateTime
+  restaurant_product_id String
+
+  restaurantProduct RestaurantProduct @relation(fields: [restaurant_product_id], references: [id])
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
-  restaurantProduct RestaurantProduct[]
-
-  @@map("product_promotion")
+  @@map("restaurant_product_promotion")
 }

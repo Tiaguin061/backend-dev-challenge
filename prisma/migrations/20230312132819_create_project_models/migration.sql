@@ -43,7 +43,7 @@ CREATE TABLE "product_category" (
 CREATE TABLE "product_promotion" (
     "id" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "promotional_price" TEXT NOT NULL,
+    "promotional_price" INTEGER NOT NULL,
     "start_promotion_date" TIMESTAMP(3) NOT NULL,
     "end_promotion_date" TIMESTAMP(3) NOT NULL,
     "is_closed" BOOLEAN NOT NULL,
