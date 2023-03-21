@@ -35,7 +35,6 @@ export interface CreateRestaurantProductServiceData {
   restaurant_product_promotion?: {
     description: string;
     promotional_price: number;
-    restaurant_product_id: string;
 
     start_promotion_date: Date;
     end_promotion_date?: Date;
