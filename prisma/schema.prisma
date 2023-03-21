@@ -50,9 +50,9 @@ model RestaurantProduct {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
-  restaurant                 Restaurant                   @relation(fields: [restaurant_id], references: [id])
-  productCategory            RestaurantProductCategory    @relation(fields: [product_category_id], references: [id])
-  restaurantProductPromocion RestaurantProductPromocion[]
+  restaurant                  Restaurant                    @relation(fields: [restaurant_id], references: [id])
+  productCategory             RestaurantProductCategory     @relation(fields: [product_category_id], references: [id])
+  restaurantProductPromotions RestaurantProductPromotions[]
 
   @@map("restaurant_products")
 }
@@ -65,12 +65,12 @@ model RestaurantProductCategory {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
-  restaurantProduct RestaurantProduct[]
+  restaurantProducts RestaurantProduct[]
 
   @@map("restaurant_product_category")
 }
 
-model RestaurantProductPromocion {
+model RestaurantProductPromotions {
   id String @id @default(uuid())
 
   description           String
@@ -84,5 +84,5 @@ model RestaurantProductPromocion {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
-  @@map("restaurant_product_promotion")
+  @@map("restaurant_product_promotions")
 }

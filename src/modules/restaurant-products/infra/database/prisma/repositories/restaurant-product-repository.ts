@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { RestaurantProduct } from '@prisma/client';
 import { RestaurantProductRepository } from '@root/modules/restaurant-products/domain/repositories/restaurant-product-repository';
+import { UpdateUniqueRestaurantProductRepositoryData } from '@root/modules/restaurant-products/domain/repositories/types';
 import { prisma } from '@root/shared/infra/database/prisma/client';
 
 @Injectable()
@@ -11,7 +12,7 @@ export class PrismaRestaurantProductRepository
     const restaurant = await prisma.restaurantProduct.create({
       data,
       include: {
-        restaurantProductPromocion: true,
+        restaurantProductPromotions: true,
         productCategory: true,
         restaurant: true,
       },
@@ -28,14 +29,23 @@ export class PrismaRestaurantProductRepository
     });
   }
 
-  async updateUnique({ data, restaurant_product_id }: any) {
+  async updateUnique({
+    data: { name, price, product_category_id, profile_photo, restaurant_id },
+    restaurant_product_id,
+  }: UpdateUniqueRestaurantProductRepositoryData) {
     return prisma.restaurantProduct.update({
       where: {
         id: restaurant_product_id,
       },
-      data,
+      data: {
+        name,
+        price,
+        product_category_id,
+        profile_photo,
+        restaurant_id,
+      },
       include: {
-        restaurantProductPromocion: true,
+        restaurantProductPromotions: true,
         productCategory: true,
         restaurant: true,
       },
@@ -48,7 +58,7 @@ export class PrismaRestaurantProductRepository
         id: restaurant_product_id,
       },
       include: {
-        restaurantProductPromocion: true,
+        restaurantProductPromotions: true,
         productCategory: true,
         restaurant: true,
       },
@@ -61,7 +71,7 @@ export class PrismaRestaurantProductRepository
         restaurant_id,
       },
       include: {
-        restaurantProductPromocion: true,
+        restaurantProductPromotions: true,
         productCategory: true,
       },
     });

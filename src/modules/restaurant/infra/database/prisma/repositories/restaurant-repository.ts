@@ -39,6 +39,14 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
       where: {
         id: restaurant_id,
       },
+      include: {
+        restaurantProduct: {
+          include: {
+            productCategory: true,
+            restaurantProductPromotions: true,
+          },
+        },
+      },
     });
   }
 

@@ -18,16 +18,13 @@ export class PrismaRestaurantProductPromotionRepository
     start_promotion_date,
     end_promotion_date,
   }: CreateRestaurantProductPromotionRepositoryData) {
-    return prisma.restaurantProductPromocion.create({
+    return prisma.restaurantProductPromotions.create({
       data: {
         description,
         promotional_price,
         restaurant_product_id,
         start_promotion_date,
         end_promotion_date,
-      },
-      include: {
-        restaurantProduct: true,
       },
     });
   }
@@ -36,7 +33,7 @@ export class PrismaRestaurantProductPromotionRepository
     data,
     restaurant_product_promotion_id,
   }: UpdateUniqueRestaurantProductPromotionRepositoryData) {
-    return prisma.restaurantProductPromocion.update({
+    return prisma.restaurantProductPromotions.update({
       where: {
         id: restaurant_product_promotion_id,
       },
@@ -48,7 +45,7 @@ export class PrismaRestaurantProductPromotionRepository
   }
 
   async findUniqueById(restaurant_product_promocion: string) {
-    return prisma.restaurantProductPromocion.findUnique({
+    return prisma.restaurantProductPromotions.findUnique({
       where: {
         id: restaurant_product_promocion,
       },
