@@ -43,7 +43,7 @@ export class DiskStorageProvider implements StorageProvider {
       oldFilename,
     );
 
-    await fs.promises.unlink(filePath);
+    await fs.promises.rm(filePath);
 
     const id = crypto.randomUUID();
 
