@@ -24,7 +24,7 @@ type StorageConfig = {
   };
 };
 
-const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
+const tmpFolder = path.resolve('tmp');
 
 function createFolders() {
   const tmpFolderDir = './tmp';
