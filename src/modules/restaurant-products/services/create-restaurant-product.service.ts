@@ -46,9 +46,10 @@ export class CreateRestaurantProductService
 
     if (restaurant_product_promotion) {
       const restaurantProductPromotion =
-        await this.restaurantProductPromotionRepository.create(
-          restaurant_product_promotion,
-        );
+        await this.restaurantProductPromotionRepository.create({
+          ...restaurant_product_promotion,
+          restaurant_product_id: restaurantProduct.id,
+        });
 
       return {
         ...restaurantProduct,
