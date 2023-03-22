@@ -1,5 +1,6 @@
 import { IRestaurant, Restaurant } from '../../domain/entities/restaurant';
 
+import { ListManyProductsFromRestaurantRepositoryData } from '@root/modules/restaurant-products/domain/repositories/types';
 import { RestaurantRepository } from '../../domain/repositories/restaurant-repository';
 import { UpdateUniqueRestaurantServiceData } from '../../domain/services/types';
 
@@ -57,5 +58,18 @@ export class InMemoryRestaurantRepository implements RestaurantRepository {
     );
 
     return restaurant;
+  }
+
+  async listManyProductFromRestaurantId(
+    restaurant_id: string,
+  ): Promise<ListManyProductsFromRestaurantRepositoryData> {
+    const foundRestaurant = await this.findUniqueById(restaurant_id);
+
+    if (foundRestaurant) {
+      return {
+        restaurant: foundRestaurant,
+        restaurantProductsCategory: [],
+      };
+    }
   }
 }

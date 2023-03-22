@@ -1,4 +1,5 @@
 import { IRestaurant } from '../entities/restaurant';
+import { ListManyProductsFromRestaurantRepositoryData } from '@root/modules/restaurant-products/domain/repositories/types';
 import { UpdateUniqueRestaurantRepositoryData } from './types';
 
 export abstract class RestaurantRepository {
@@ -13,4 +14,8 @@ export abstract class RestaurantRepository {
   public abstract findUniqueById(
     restaurant_id: string,
   ): Promise<IRestaurant | null>;
+
+  public abstract listManyProductFromRestaurantId(
+    restaurant_id: string,
+  ): Promise<ListManyProductsFromRestaurantRepositoryData>;
 }
