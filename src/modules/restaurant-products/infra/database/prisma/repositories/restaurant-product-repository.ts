@@ -13,7 +13,7 @@ export class PrismaRestaurantProductRepository
       data,
       include: {
         restaurantProductPromotions: true,
-        productCategory: true,
+        restaurantProductCategory: true,
         restaurant: true,
       },
     });
@@ -46,7 +46,7 @@ export class PrismaRestaurantProductRepository
       },
       include: {
         restaurantProductPromotions: true,
-        productCategory: true,
+        restaurantProductCategory: true,
         restaurant: true,
       },
     });
@@ -59,20 +59,8 @@ export class PrismaRestaurantProductRepository
       },
       include: {
         restaurantProductPromotions: true,
-        productCategory: true,
+        restaurantProductCategory: true,
         restaurant: true,
-      },
-    });
-  }
-
-  public listManyFromRestaurantId(restaurant_id: string) {
-    return prisma.restaurantProduct.findMany({
-      where: {
-        restaurant_id,
-      },
-      include: {
-        restaurantProductPromotions: true,
-        productCategory: true,
       },
     });
   }
