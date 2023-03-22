@@ -1,5 +1,6 @@
 import { EntityCommons } from '@root/shared/types/common-entities';
 import { IRestaurant } from '@root/modules/restaurant/domain/entities/restaurant';
+import { IRestaurantProductCategory } from '@root/modules/restaurant-product-category/domain/entities/restaurant-product-category';
 import { IRestaurantProductPromotion } from '@root/modules/restaurant-product-promotion/domain/entities/restaurant-product-promotion';
 import { randomUUID } from 'node:crypto';
 
@@ -16,6 +17,7 @@ export interface IRestaurantProductProps {
 
   restaurantProductPromotions?: IRestaurantProductPromotion[];
   restaurant?: IRestaurant;
+  restaurantProductCategory?: IRestaurantProductCategory;
 }
 
 export interface IRestaurantProduct
@@ -68,6 +70,10 @@ export class RestaurantProduct implements IRestaurantProduct {
 
   get restaurant(): IRestaurant {
     return this._props.restaurant;
+  }
+
+  get restaurantProductCategory(): IRestaurantProductCategory {
+    return this._props.restaurantProductCategory;
   }
 
   constructor(
