@@ -61,14 +61,6 @@ export class InMemoryRestaurantProductRepository
     return foundRestaurantProduct;
   }
 
-  async listManyFromRestaurantId(
-    restaurant_id: string,
-  ): Promise<IRestaurantProduct[]> {
-    return this.restaurantProducts.filter(
-      (where) => where.restaurant_id === restaurant_id,
-    );
-  }
-
   async findUniqueById(
     restaurant_product_id: string,
   ): Promise<IRestaurantProduct | null> {

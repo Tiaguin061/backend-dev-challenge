@@ -18,10 +18,6 @@ export abstract class RestaurantProductRepository {
     restaurant_product_id: string,
   ): Promise<void>;
 
-  public abstract listManyFromRestaurantId(
-    restaurant_id: string,
-  ): Promise<IRestaurantProduct[]>;
-
   public abstract findUniqueById(
     restaurant_product_id: string,
   ): Promise<IRestaurantProduct | null>;
