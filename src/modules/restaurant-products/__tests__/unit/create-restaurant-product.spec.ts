@@ -155,7 +155,7 @@ describe('create-restaurant-product', () => {
     expect(restaurantProductCreated?.restaurantProductPromotions).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          ...fakeRestaurantProductPromotion,
+          promotional_price: 500,
         }),
       ]),
     );
