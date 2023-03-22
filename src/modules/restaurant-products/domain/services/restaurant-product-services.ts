@@ -3,8 +3,8 @@ import {
   UpdateUniqueRestaurantProductServiceData,
 } from './types';
 
-import { IRestaurant } from '@root/modules/restaurant/domain/entities/restaurant';
 import { IRestaurantProduct } from '../entities/restaurant-product';
+import { ListManyProductsFromRestaurantRepositoryData } from '../repositories/types';
 
 export abstract class AbstractCreateRestaurantProductService {
   public abstract execute(
@@ -23,7 +23,9 @@ export abstract class AbstractDeleteUniqueRestaurantProductService {
 }
 
 export abstract class AbstractListProductsFromRestaurantService {
-  public abstract execute(restaurant_id: string): Promise<IRestaurant>;
+  public abstract execute(
+    restaurant_id: string,
+  ): Promise<ListManyProductsFromRestaurantRepositoryData>;
 }
 
 export abstract class AbstractListUniqueRestaurantProductService {

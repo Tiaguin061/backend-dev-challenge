@@ -1,3 +1,6 @@
+import { IRestaurant } from '@root/modules/restaurant/domain/entities/restaurant';
+import { IRestaurantProductCategory } from '@root/modules/restaurant-product-category/domain/entities/restaurant-product-category';
+
 export interface UpdateUniqueRestaurantProductServiceData {
   restaurant_product_id: string;
   data: {
@@ -39,4 +42,9 @@ export interface CreateRestaurantProductServiceData {
     start_promotion_date: Date;
     end_promotion_date?: Date;
   };
+}
+
+export interface ListManyProductsFromRestaurantServiceData {
+  restaurant: IRestaurant;
+  restaurantProductsCategory: IRestaurantProductCategory[];
 }
