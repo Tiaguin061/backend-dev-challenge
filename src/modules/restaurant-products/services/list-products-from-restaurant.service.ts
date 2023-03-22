@@ -9,9 +9,10 @@ export class ListProductsFromRestaurantService
 {
   constructor(private restaurantRepository: RestaurantRepository) {}
   async execute(restaurant_id: string) {
-    const restaurant = await this.restaurantRepository.findUniqueById(
-      restaurant_id,
-    );
+    const restaurant =
+      await this.restaurantRepository.listManyProductFromRestaurantId(
+        restaurant_id,
+      );
 
     if (!restaurant) {
       throw new BadRequestException('Restaurant does not exist.');
