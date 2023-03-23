@@ -4,6 +4,7 @@ import { RestaurantDatabaseModule } from '@root/modules/restaurant/infra/databas
 import { RestaurantProductCategoryDatabaseModule } from '@root/modules/restaurant-product-category/infra/database/database.module';
 import { RestaurantProductDatabaseModule } from '@root/modules/restaurant-products/infra/database/database.module';
 import { RestaurantProductPromotionDatabaseModule } from '@root/modules/restaurant-product-promotion/infra/database/database.module';
+import { UserDatabaseModule } from '@root/modules/user/infra/database/database.module';
 
 @Module({
   imports: [],
@@ -13,6 +14,7 @@ import { RestaurantProductPromotionDatabaseModule } from '@root/modules/restaura
     RestaurantProductDatabaseModule,
     RestaurantProductPromotionDatabaseModule,
     RestaurantProductCategoryDatabaseModule,
+    UserDatabaseModule,
   ],
   exports: [],
 })
