@@ -1,8 +1,8 @@
-import { CreateRestaurantProductCategoryRepositoryData } from '../repositories/types';
+import { CreateRestaurantProductCategoryServiceData } from './types';
 import { IRestaurantProductCategory } from '../entities/restaurant-product-category';
 
 export abstract class AbstractCreateRestaurantProductCategoryService {
   public abstract execute(
-    data: CreateRestaurantProductCategoryRepositoryData,
+    data: CreateRestaurantProductCategoryServiceData,
   ): Promise<IRestaurantProductCategory>;
 }
