@@ -1,4 +1,5 @@
 import { IRestaurant } from '../entities/restaurant';
+import { IUser } from '@root/modules/user/domain/entities/user';
 import { UpdateUniqueRestaurantServiceData } from './types';
 
 export abstract class AbstractCreateRestaurantService {
@@ -17,6 +18,9 @@ export abstract class AbstractDeleteUniqueRestaurantService {
 
 export abstract class AbstractListRestaurantsService {
   public abstract execute(): Promise<IRestaurant[]>;
+}
+export abstract class AbstractListRestaurantsFromUserService {
+  public abstract execute(user_id: string): Promise<IUser | null>;
 }
 
 export abstract class AbstractListUniqueRestaurantService {
