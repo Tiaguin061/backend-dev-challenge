@@ -1,8 +1,11 @@
+import { AuthenticateUserService } from '../../services/authenticate-user.service';
+import { HashProvider } from '@root/shared/providers/hashProvider/models/hash-provider';
 import { Module } from '@nestjs/common';
-import { UserRepository } from '../../domain/repositories/user-respository';
 import { RegisterUserService } from '../../services/register-user.service';
-import { UserDatabaseModule } from '../database/database.module';
+import { TokenProvider } from '@root/shared/providers/tokenProvider/models/token-provider';
 import { UserController } from './controllers/user.controller';
+import { UserDatabaseModule } from '../database/database.module';
+import { UserRepository } from '../../domain/repositories/user-respository';
 
 @Module({
   imports: [UserDatabaseModule],
@@ -12,11 +15,24 @@ import { UserController } from './controllers/user.controller';
       provide: RegisterUserService,
       useFactory: (
         userRepository: UserRepository,
+        hashProvider: HashProvider,
       ): RegisterUserService =>
-        new RegisterUserService(
+        new RegisterUserService(userRepository, hashProvider),
+      inject: [UserRepository, HashProvider],
+    },
+    {
+      provide: AuthenticateUserService,
+      useFactory: (
+        userRepository: UserRepository,
+        tokenProvider: TokenProvider,
+        hashProvider: HashProvider,
+      ): AuthenticateUserService =>
+        new AuthenticateUserService(
           userRepository,
+          tokenProvider,
+          hashProvider,
         ),
-      inject: [UserRepository],
+      inject: [UserRepository, TokenProvider, HashProvider],
     },
   ],
 })
