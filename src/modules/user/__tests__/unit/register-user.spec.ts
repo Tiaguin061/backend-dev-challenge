@@ -49,8 +49,6 @@ describe('Register User', () => {
       password: '123',
     };
 
-    await inMemoryUserRepository.register(fakeUser);
-
     await expect(
       registerUserService.execute({
         ...fakeUser,
@@ -66,12 +64,10 @@ describe('Register User', () => {
       password: '1'.repeat(260),
     };
 
-    await inMemoryUserRepository.register(fakeUser);
-
     await expect(
       registerUserService.execute({
         ...fakeUser,
-        password_confirmation: '123',
+        password_confirmation: '1'.repeat(260),
       }),
     ).rejects.toBeInstanceOf(BadRequestException);
   });
@@ -82,8 +78,6 @@ describe('Register User', () => {
       email: 'fake-email@email.com',
       password: '123456',
     };
-
-    await inMemoryUserRepository.register(fakeUser);
 
     await expect(
       registerUserService.execute({
