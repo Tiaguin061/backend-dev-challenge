@@ -26,4 +26,14 @@ export class InMemoryUserRepository implements UserRepository {
   async findUniqueByEmail(email: string): Promise<IUser | null> {
     return this.users.find((where) => where.email === email);
   }
+
+  async findManyRestaurantsByUserId(user_id: string): Promise<IUser | null> {
+    const foundUser = this.users.find((where) => where.id === user_id);
+
+    if (!foundUser) {
+      return null;
+    }
+
+    return foundUser;
+  }
 }

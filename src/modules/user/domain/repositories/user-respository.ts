@@ -9,4 +9,8 @@ export abstract class UserRepository {
   public abstract findUniqueById(user_id: string): Promise<IUser | null>;
 
   public abstract findUniqueByEmail(email: string): Promise<IUser | null>;
+
+  public abstract findManyRestaurantsByUserId(
+    user_id: string,
+  ): Promise<IUser | null>;
 }
