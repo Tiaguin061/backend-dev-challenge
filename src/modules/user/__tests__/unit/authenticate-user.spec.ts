@@ -3,7 +3,7 @@ import { describe, expect, it } from '@jest/globals';
 import { AbstractAuthenticateUserService } from '../../domain/services/user-service';
 import { AuthenticateUserService } from '../../services/authenticate-user.service';
 import { BadRequestException } from '@nestjs/common';
-import { BycrptProvider } from '@root/shared/providers/hashProvider/implementations/bcrypt-provider';
+import { BcryptProvider } from '@root/shared/providers/hashProvider/implementations/bcrypt-provider';
 import { HashProvider } from '@root/shared/providers/hashProvider/models/hash-provider';
 import { IUser } from '../../domain/entities/user';
 import { InMemoryUserRepository } from '../inMemory/user-repository';
@@ -19,7 +19,7 @@ let authenticateUserService: AbstractAuthenticateUserService;
 
 describe('Authenticate User', () => {
   beforeEach(() => {
-    hashProvider = new BycrptProvider();
+    hashProvider = new BcryptProvider();
     tokenProvider = new JwtProvider();
     inMemoryUserRepository = new InMemoryUserRepository(hashProvider);
 

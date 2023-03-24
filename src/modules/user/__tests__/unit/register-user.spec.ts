@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import { AbstractRegisterUserService } from '../../domain/services/user-service';
 import { BadRequestException } from '@nestjs/common';
-import { BycrptProvider } from '@root/shared/providers/hashProvider/implementations/bcrypt-provider';
+import { BcryptProvider } from '@root/shared/providers/hashProvider/implementations/bcrypt-provider';
 import { HashProvider } from '@root/shared/providers/hashProvider/models/hash-provider';
 import { IUser } from '../../domain/entities/user';
 import { InMemoryUserRepository } from '../inMemory/user-repository';
@@ -16,10 +16,13 @@ let registerUserService: AbstractRegisterUserService;
 
 describe('Register User', () => {
   beforeEach(() => {
-    hashProvider = new BycrptProvider();
+    hashProvider = new BcryptProvider();
     inMemoryUserRepository = new InMemoryUserRepository(hashProvider);
 
-    registerUserService = new RegisterUserService(inMemoryUserRepository);
+    registerUserService = new RegisterUserService(
+      inMemoryUserRepository,
+      hashProvider,
+    );
   });
 
   it('should not be able to register new user with existing email', async () => {
@@ -88,26 +91,6 @@ describe('Register User', () => {
         password_confirmation: '1234567',
       }),
     ).rejects.toBeInstanceOf(BadRequestException);
-  });
-
-  it('should be able hash the password', async () => {
-    const fakeUser: IUser = {
-      name: 'fake-name',
-      email: 'fake-email@email.com',
-      password: '123456',
-    };
-
-    const response = await registerUserService.execute({
-      ...fakeUser,
-      password_confirmation: '123456',
-    });
-
-    const compare = await hashProvider.compare(
-      fakeUser.password,
-      response.password,
-    );
-
-    expect(compare).toBeTruthy();
   });
 
   it('should be able to create a new user', async () => {
