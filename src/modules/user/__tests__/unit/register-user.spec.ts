@@ -2,19 +2,22 @@ import { describe, expect, it } from '@jest/globals';
 
 import { AbstractRegisterUserService } from '../../domain/services/user-service';
 import { BadRequestException } from '@nestjs/common';
+import { BycrptProvider } from '@root/shared/providers/hashProvider/implementations/bcrypt-provider';
+import { HashProvider } from '@root/shared/providers/hashProvider/models/hash-provider';
 import { IUser } from '../../domain/entities/user';
 import { InMemoryUserRepository } from '../inMemory/user-repository';
 import { RegisterUserService } from '../../services/register-user.service';
 import { UserRepository } from '../../domain/repositories/user-respository';
-import bcrypt from 'bcrypt';
 
+let hashProvider: HashProvider;
 let inMemoryUserRepository: UserRepository;
 
 let registerUserService: AbstractRegisterUserService;
 
 describe('Register User', () => {
   beforeEach(() => {
-    inMemoryUserRepository = new InMemoryUserRepository();
+    hashProvider = new BycrptProvider();
+    inMemoryUserRepository = new InMemoryUserRepository(hashProvider);
 
     registerUserService = new RegisterUserService(inMemoryUserRepository);
   });
@@ -99,7 +102,10 @@ describe('Register User', () => {
       password_confirmation: '123456',
     });
 
-    const compare = await bcrypt.compare(fakeUser.password, response.password);
+    const compare = await hashProvider.compare(
+      fakeUser.password,
+      response.password,
+    );
 
     expect(compare).toBeTruthy();
   });

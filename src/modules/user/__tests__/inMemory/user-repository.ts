@@ -1,13 +1,18 @@
 import { IUser, User } from '../../domain/entities/user';
 
+import { HashProvider } from '@root/shared/providers/hashProvider/models/hash-provider';
 import { RegisterUserRepositoryData } from '../../domain/repositories/types';
 import { UserRepository } from '../../domain/repositories/user-respository';
 
 export class InMemoryUserRepository implements UserRepository {
   private users: IUser[] = [];
 
+  constructor(private hashProvider: HashProvider) {}
+
   async register(data: RegisterUserRepositoryData): Promise<IUser> {
     const user = new User(data).user;
+
+    user.password = await this.hashProvider.hash(user.password, 10);
 
     this.users.push(user);
 

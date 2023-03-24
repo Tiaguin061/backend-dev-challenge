@@ -1,13 +1,16 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { AbstractRegisterUserService } from '../domain/services/user-service';
+import { HashProvider } from '@root/shared/providers/hashProvider/models/hash-provider';
 import { RegisterUserServiceData } from '../domain/services/types';
 import { UserRepository } from '../domain/repositories/user-respository';
-import bcrypt from 'bcrypt';
 
 @Injectable()
 export class RegisterUserService implements AbstractRegisterUserService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private userRepository: UserRepository,
+    private hashProvider: HashProvider,
+  ) {}
   async execute(data: RegisterUserServiceData) {
     const { email, name, password_confirmation } = data;
     let { password } = data;
@@ -30,7 +33,7 @@ export class RegisterUserService implements AbstractRegisterUserService {
       );
     }
 
-    const passwordHashed = await bcrypt.hash(password, 10);
+    const passwordHashed = await this.hashProvider.hash(password, 10);
 
     password = passwordHashed;
 
