@@ -1,73 +1,104 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Goomer Lista Rango - Backend dev Challenge
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Sobre
+Encontrei este repositório de desafio backend para ser feito em NodeJs, na qual o objetivo do projeto é criar uma API RESTful capaz de gerenciar os restaurantes e os produtos do seu cardápio. Então me senti capacitado a concluir o desafio.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Funcionalidades do desafio
+* [✔] O cadastro do restaurante precisa ter os seguintes campos:
+  * Foto do restaurante
+  * Nome do restaurante
+  * Endereço do restaurante
+  * Horários de funcionamento do restaurante (ex.: De Segunda à Sexta das 09h as 18h e de Sabado à Domingo das 11h as 20h).
+<p/>
 
-## Description
+* [✔] O cadastro de produtos do restaurante precisa ter os seguintes campos:
+  * Foto do produto
+  * Nome do produto
+  * Preço do produto
+  * Categoria do produto (ex.: Doce, Salgados, Sucos...)
+  * [✔] Quando o Produto for colocado em promoção, precisa ter os seguintes campos:
+    * Descrição para a promoção do produto (ex.: Chopp pela metade do preço)
+    * Preço promocional
+    * Dias da semana e o horário em que o produto deve estar em promoção
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+## Tecnologias, padrões e metodologia utilizada
+* **TDD(Test Driven Development)** - Foi usado para fazer os testes antes da funcionalidade nas camadas de serviços do projeto.
+
+* **SOLID** - Foi seguido os prinicipios para melhor organização dos códigos do projeto.
+
+* **Typescript** - Para tornar o Javascript mais poderoso e com tipagem.
+
+* **NodeJs** - Para rodar o javascript no backend.
+
+* **NestJs** - Framework para facilitar na construção das funcionalidades do aplicativo.
+
+* **Prisma** - ORM para facilitar as query no banco de dados.
+
+* **PostgreSQL** - Banco de dados relacional escolhido para ser utilizado.
+
+* **Jest** - Para fazer os testes do projeto.
+
+## Avaliação do projeto
+O projeto é para criar funcionalidades simples e curtas, porém quis fazer seguindo **TDD** para aprimorar as minhas habilidades em Testes no NodeJs, tornando o projeto um pouco mais longo para concluir.
+
+Apesar de ter sido feito em **NestJs**, o desafio pediu para ser feito utilizando NodeJs sem a utilização de frameworks, sugerindo a utilização do Express, porém queria juntamente com os testes, aprimorar as técnicas neste Framework, por isso decidi utiliza-lo. <br />
+
+## Correções que podem ser feitas
+O objetivo maior era concluir o projeto seguindo um bom padrão de software e isso foi feito em grande parte do aplicativo.
+
+O que poderia ser mudado em versões futuras:
+
+* Na camada de domínio - Deve ter a lógica e testes para cada entidade, como por exemplo: Na entidade de usuário, ter as validações de email e senha, para que ao utilizar esta entidade, não precise repetir as validações.
+  * Isso resolveria as repetições das mesmas validações em determinados trecho de código em uma ou mais funcionalidade.
+  * Isso melhoraria as validações de schemas que foram feitas no controller, tirando a responsabilidade da camada de Infra, de validar os dados que entram no service.
+
+
+## Rodando o Projeto em localhost
 
 ```bash
 $ npm install
+or
+$ yarn
 ```
 
-## Running the app
+* Copiar o arquivo **.env.example** e renomear para **.env** na raíz do projeto e definir os valores das variáveis ambiente.
 
-```bash
-# development
-$ npm run start
+* Ter instalado **docker** em sua máquina.
+* Executar no **CMD** o seguinte comando, para que crie o container do docker:
+  ```bash
+  $ docker-compose up -d
+  ```
 
-# watch mode
-$ npm run start:dev
+* Executar no **CMD** o seguinte comando, para **rodar as migrations do prisma**:
+  ```bash
+  $ npx prisma migrate dev
+  or
+  yarn prisma migrate dev
 
-# production mode
-$ npm run start:prod
-```
+* Para rodar o projeto em localhost, execute o seguinte comando no **CMD**: 
+  ```bash
+  # development
+  $ npm run start
+  or
+  $ yarn start
 
-## Test
+  # watch mode
+  $ npm run start:dev
+  or
+  $ yarn start:dev
+  ```
+
+## Rodando os testes do projeto
 
 ```bash
 # unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
+or
+$ yarn test
 
 # test coverage
 $ npm run test:cov
+or
+$ yarn test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
