@@ -9,6 +9,7 @@ import { RestaurantDatabaseModule } from '../database/database.module';
 import { RestaurantRepository } from '@root/modules/restaurant/domain/repositories/restaurant-repository';
 import { StorageProvider } from '@root/shared/providers/storageProvider/models/storage-provider';
 import { UpdateUniqueRestaurantService } from '@root/modules/restaurant/services/update-unique-restaurant.service';
+import { UserRepository } from '@root/modules/user/domain/repositories/user-respository';
 
 @Module({
   imports: [RestaurantDatabaseModule, ProviderModule],
@@ -19,8 +20,13 @@ import { UpdateUniqueRestaurantService } from '@root/modules/restaurant/services
       useFactory: (
         restaurantRepo: RestaurantRepository,
         storageProvider: StorageProvider,
+        userRepository: UserRepository,
       ): CreateRestaurantService =>
-        new CreateRestaurantService(restaurantRepo, storageProvider),
+        new CreateRestaurantService(
+          restaurantRepo,
+          storageProvider,
+          userRepository,
+        ),
       inject: [RestaurantRepository, StorageProvider],
     },
     {
