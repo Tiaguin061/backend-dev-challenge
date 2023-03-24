@@ -9,7 +9,7 @@ export interface IUserProps {
   email: string;
   password: string;
 
-  restaurant?: IRestaurant[];
+  restaurants?: IRestaurant[];
 }
 
 export interface IUser extends IUserProps, UserCommons {}
@@ -44,8 +44,8 @@ export class User implements IUser {
     return this._props.password;
   }
 
-  get restaurant(): IRestaurant[] {
-    return this._props.restaurant;
+  get restaurants(): IRestaurant[] {
+    return this._props.restaurants;
   }
 
   constructor(props: IUser | Partial<IUser>, commons?: UserCommons) {

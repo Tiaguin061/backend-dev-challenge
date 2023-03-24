@@ -17,7 +17,7 @@ export class PrismaUserRepository implements UserRepository {
         id: user_id,
       },
       include: {
-        restaurant: true,
+        restaurants: true,
       },
     });
   }
@@ -28,7 +28,18 @@ export class PrismaUserRepository implements UserRepository {
         email,
       },
       include: {
-        restaurant: true,
+        restaurants: true,
+      },
+    });
+  }
+
+  async findManyRestaurantsByUserId(user_id: string) {
+    return prisma.user.findUnique({
+      where: {
+        id: user_id,
+      },
+      include: {
+        restaurants: true,
       },
     });
   }
