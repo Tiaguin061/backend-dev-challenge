@@ -21,6 +21,7 @@ import { Response } from 'express';
 import { ListRestaurantsService } from '@root/modules/restaurant/services/list-restaurants.service';
 import { UpdateUniqueRestaurantService } from '@root/modules/restaurant/services/update-unique-restaurant.service';
 import { DeleteUniqueRestaurantService } from '@root/modules/restaurant/services/delete-unique-restaurant.service';
+import { ListRestaurantsFromUserService } from '@root/modules/restaurant/services/list-restaurants-from-user.service';
 
 @Controller()
 export class RestaurantController {
@@ -30,6 +31,7 @@ export class RestaurantController {
     private deleteUniqueRestaurantService: DeleteUniqueRestaurantService,
     private listUniqueRestaurantService: ListUniqueRestaurantService,
     private listRestaurantsService: ListRestaurantsService,
+    private listRestaurantsFromUserService: ListRestaurantsFromUserService,
   ) {}
   @Post('/restaurants/create')
   @UseInterceptors(FileInterceptor('profile_photo'))
@@ -156,6 +158,29 @@ export class RestaurantController {
   @Get('/restaurants/list-many')
   async listManyRestaurant(@Res() response: Response) {
     const restaurants = await this.listRestaurantsService.execute();
+
+    return response.status(200).json(restaurants);
+  }
+
+  @Get('/restaurants/list-many-from-user')
+  async listManyRestaurantFromUser(
+    @Res() response: Response,
+    @Query() query: { user_id: string },
+  ) {
+    const { user_id } = query;
+
+    const validator = zod.object({
+      user_id: zod.string({ required_error: 'user_id is required' }),
+    });
+
+    try {
+      validator.parse(query);
+    } catch (error) {
+      throw new BadRequestException(error.errors);
+    }
+    const restaurants = await this.listRestaurantsFromUserService.execute(
+      user_id,
+    );
 
     return response.status(200).json(restaurants);
   }
