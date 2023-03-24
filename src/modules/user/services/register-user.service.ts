@@ -43,8 +43,6 @@ export class RegisterUserService implements AbstractRegisterUserService {
       password,
     });
 
-    delete authenticatedUser.password;
-
     return authenticatedUser;
   }
 }
