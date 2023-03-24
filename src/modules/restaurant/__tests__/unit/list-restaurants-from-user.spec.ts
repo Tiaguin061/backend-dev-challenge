@@ -15,7 +15,7 @@ let inMemoryUserRepository: UserRepository;
 let listRestaurantsFromUserService: AbstractListRestaurantsFromUserService;
 let hashProvider: HashProvider;
 
-describe('list-restaurants', () => {
+describe('List Restaurant from User', () => {
   beforeEach(() => {
     inMemoryRestaurantRepository = new InMemoryRestaurantRepository();
     hashProvider = new BcryptProvider();
@@ -39,19 +39,27 @@ describe('list-restaurants', () => {
       user_id: user.id,
     });
 
-    const restaurants = await listRestaurantsFromUserService.execute(user.id);
+    const expectResult = {
+      ...user,
+      restaurants: [restaurant],
+    };
 
-    expect(restaurants).toEqual(
-      expect.objectContaining({
-        user,
-        restaurants: expect.arrayContaining([restaurant]),
-      }),
+    jest
+      .spyOn(inMemoryUserRepository, 'findManyRestaurantsByUserId')
+      .mockImplementationOnce(async () => {
+        return expectResult;
+      });
+
+    const userWithRestaurant = await listRestaurantsFromUserService.execute(
+      user.id,
     );
+
+    expect(userWithRestaurant).toEqual(expectResult);
   });
 
   it('should not be able list restaurants if user does not exist', async () => {
-    expect(
-      await listRestaurantsFromUserService.execute('fake-user-id'),
+    await expect(
+      listRestaurantsFromUserService.execute('fake-user-id'),
     ).rejects.toBeInstanceOf(BadRequestException);
   });
 });
