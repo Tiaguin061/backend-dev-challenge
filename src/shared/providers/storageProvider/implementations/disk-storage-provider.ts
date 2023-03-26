@@ -43,15 +43,15 @@ export class DiskStorageProvider implements StorageProvider {
       oldFilename,
     );
 
-    await fs.promises.rm(filePath);
+    if (fs.existsSync(filePath)) {
+      await fs.promises.rm(filePath);
+    }
 
-    const id = crypto.randomUUID();
+    const file = await this.saveFile({
+      buffer: newFilenameBuffer,
+      filename: newFilename,
+    });
 
-    await fs.promises.writeFile(
-      `./tmp/uploads/${id}-${newFilename}`,
-      newFilenameBuffer,
-    );
-
-    return `${id}-${newFilename}`;
+    return file;
   }
 }
