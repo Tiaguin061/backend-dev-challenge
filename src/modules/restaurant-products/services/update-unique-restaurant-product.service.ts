@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { AbstractUpdateUniqueRestaurantProductService } from '../domain/services/restaurant-product-services';
+import { RestaurantProductCategoryRepository } from '@root/modules/restaurant-product-category/domain/repositories/restaurant-product-category-repository';
 import { RestaurantProductPromotionRepository } from '@root/modules/restaurant-product-promotion/domain/repositories/restaurant-product-promotion-repository';
 import { RestaurantProductRepository } from '../domain/repositories/restaurant-product-repository';
 import { StorageProvider } from '../../../shared/providers/storageProvider/models/storage-provider';
@@ -15,6 +16,7 @@ export class UpdateUniqueRestaurantProductService
     private restaurantProductRepository: RestaurantProductRepository,
     private storageProvider: StorageProvider,
     private restaurantProductPromotionRepository: RestaurantProductPromotionRepository,
+    private restaurantProductCategoryRepository: RestaurantProductCategoryRepository,
   ) {}
   async execute({
     data,
@@ -30,6 +32,17 @@ export class UpdateUniqueRestaurantProductService
 
     if (!foundRestaurantProduct) {
       throw new BadRequestException('Restaurant product does not exist');
+    }
+
+    if (restaurant_product?.product_category_id) {
+      const foundCategory =
+        await this.restaurantProductCategoryRepository.findUniqueById(
+          restaurant_product.product_category_id,
+        );
+
+      if (!foundCategory) {
+        throw new BadRequestException('Category does not exist');
+      }
     }
 
     let profile_photo: string | null = foundRestaurantProduct.profile_photo;
