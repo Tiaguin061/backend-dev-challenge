@@ -69,6 +69,10 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
       },
     });
 
+    if (!data) {
+      return null;
+    }
+
     const restaurant: IRestaurant = {
       id: data.id,
       name: data.name,
