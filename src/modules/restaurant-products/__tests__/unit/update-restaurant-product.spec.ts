@@ -5,10 +5,12 @@ import { BadRequestException } from '@nestjs/common';
 import { IRestaurant } from '@root/modules/restaurant/domain/entities/restaurant';
 import { IRestaurantProduct } from '../../domain/entities/restaurant-product';
 import { IRestaurantProductPromotion } from '@root/modules/restaurant-product-promotion/domain/entities/restaurant-product-promotion';
+import { InMemoryRestaurantProductCategoryRepository } from '@root/modules/restaurant-product-category/__tests__/inMemory/restaurant-product-category-repository';
 import { InMemoryRestaurantProductPromotionRepository } from '@root/modules/restaurant-product-promotion/__tests__/inMemory/restaurant-product-promotion-repository';
 import { InMemoryRestaurantProductRepository } from '../inMemory/in-memory-restaurant-product-repository';
 import { InMemoryRestaurantRepository } from '@root/modules/restaurant/__tests__/inMemory/restaurant-repository';
 import { InMemoryStorageProvider } from '../inMemory/storage-provider';
+import { RestaurantProductCategoryRepository } from '@root/modules/restaurant-product-category/domain/repositories/restaurant-product-category-repository';
 import { RestaurantProductPromotionRepository } from '@root/modules/restaurant-product-promotion/domain/repositories/restaurant-product-promotion-repository';
 import { RestaurantProductRepository } from '../../domain/repositories/restaurant-product-repository';
 import { RestaurantRepository } from '@root/modules/restaurant/domain/repositories/restaurant-repository';
@@ -18,6 +20,7 @@ import { UpdateUniqueRestaurantProductService } from '../../services/update-uniq
 let inMemoryRestaurantProductRepository: RestaurantProductRepository;
 let inMemoryRestaurantRepository: RestaurantRepository;
 let inMemoryRestaurantProductPromotionRepository: RestaurantProductPromotionRepository;
+let restaurantProductCategoryRepository: RestaurantProductCategoryRepository;
 
 let inMemoryStorageProvider: StorageProvider;
 
@@ -31,12 +34,15 @@ describe('update-restaurant', () => {
     inMemoryRestaurantProductPromotionRepository =
       new InMemoryRestaurantProductPromotionRepository();
     inMemoryStorageProvider = new InMemoryStorageProvider();
+    restaurantProductCategoryRepository =
+      new InMemoryRestaurantProductCategoryRepository();
 
     updateUniqueRestaurantProductService =
       new UpdateUniqueRestaurantProductService(
         inMemoryRestaurantProductRepository,
         inMemoryStorageProvider,
         inMemoryRestaurantProductPromotionRepository,
+        restaurantProductCategoryRepository,
       );
   });
 
@@ -45,6 +51,40 @@ describe('update-restaurant', () => {
       updateUniqueRestaurantProductService.execute({
         data: {},
         restaurant_product_id: 'fake-id',
+      }),
+    ).rejects.toBeInstanceOf(BadRequestException);
+  });
+
+  it('should be able to show an error if restaurant product category does not exist', async () => {
+    const fakeRestaurant: IRestaurant = {
+      name: 'fake-name',
+      address: 'fake-address',
+      opening_hour: 'fake-opening_hour',
+      user_id: 'fake-user_id',
+    };
+
+    const restaurantCreated = await inMemoryRestaurantRepository.create(
+      fakeRestaurant,
+    );
+
+    const fakeRestaurantProduct: IRestaurantProduct = {
+      name: 'fake-name',
+      price: 1000,
+      product_category_id: 'fake-category-id',
+      restaurant_id: restaurantCreated.id,
+    };
+
+    const fakeRestaurantProductCreated =
+      await inMemoryRestaurantProductRepository.create(fakeRestaurantProduct);
+
+    await expect(
+      updateUniqueRestaurantProductService.execute({
+        data: {
+          restaurant_product: {
+            product_category_id: 'fake-category-id',
+          },
+        },
+        restaurant_product_id: fakeRestaurantProductCreated.id,
       }),
     ).rejects.toBeInstanceOf(BadRequestException);
   });
@@ -61,10 +101,15 @@ describe('update-restaurant', () => {
       fakeRestaurant,
     );
 
+    const category = await restaurantProductCategoryRepository.create({
+      name: 'fake-name',
+      restaurant_id: restaurantCreated.id,
+    });
+
     const fakeRestaurantProduct: IRestaurantProduct = {
       name: 'fake-name',
       price: 1000,
-      product_category_id: 'fake-product-category-id',
+      product_category_id: category.id,
       restaurant_id: restaurantCreated.id,
     };
 
@@ -74,7 +119,7 @@ describe('update-restaurant', () => {
     const fakeRestaurantProductToUpdate: IRestaurantProduct = {
       name: 'fake-name-updated',
       price: 1000,
-      product_category_id: 'fake-product-category-id',
+      product_category_id: category.id,
       restaurant_id: restaurantCreated.id,
     };
 
@@ -101,10 +146,15 @@ describe('update-restaurant', () => {
       fakeRestaurant,
     );
 
+    const category = await restaurantProductCategoryRepository.create({
+      name: 'fake-name',
+      restaurant_id: restaurantCreated.id,
+    });
+
     const fakeRestaurantProduct: IRestaurantProduct = {
       name: 'fake-name',
       price: 1000,
-      product_category_id: 'fake-product-category-id',
+      product_category_id: category.id,
       profile_photo: 'fake-profile-photo.png',
       restaurant_id: restaurantCreated.id,
     };
@@ -148,10 +198,15 @@ describe('update-restaurant', () => {
       fakeRestaurant,
     );
 
+    const category = await restaurantProductCategoryRepository.create({
+      name: 'fake-name',
+      restaurant_id: restaurantCreated.id,
+    });
+
     const fakeRestaurantProduct: IRestaurantProduct = {
       name: 'fake-name',
       price: 1000,
-      product_category_id: 'fake-product-category-id',
+      product_category_id: category.id,
       restaurant_id: restaurantCreated.id,
     };
 
@@ -193,10 +248,15 @@ describe('update-restaurant', () => {
       fakeRestaurant,
     );
 
+    const category = await restaurantProductCategoryRepository.create({
+      name: 'fake-name',
+      restaurant_id: restaurantCreated.id,
+    });
+
     const fakeRestaurantProduct: IRestaurantProduct = {
       name: 'fake-name',
       price: 1000,
-      product_category_id: 'fake-product-category-id',
+      product_category_id: category.id,
       restaurant_id: restaurantCreated.id,
     };
 
@@ -245,10 +305,26 @@ describe('update-restaurant', () => {
   });
 
   it('should be able to show an error if restaurant product promotion does not exist', async () => {
+    const fakeRestaurant: IRestaurant = {
+      name: 'fake-name',
+      address: 'fake-address',
+      opening_hour: 'fake-opening_hour',
+      user_id: 'fake-user_id',
+    };
+
+    const restaurantCreated = await inMemoryRestaurantRepository.create(
+      fakeRestaurant,
+    );
+
+    const category = await restaurantProductCategoryRepository.create({
+      name: 'fake-name',
+      restaurant_id: restaurantCreated.id,
+    });
+
     const fakeRestaurantProduct: IRestaurantProduct = {
       name: 'fake-name',
       price: 1000,
-      product_category_id: 'fake-product-category-id',
+      product_category_id: category.id,
       restaurant_id: 'fake-restaurant-id',
     };
 
