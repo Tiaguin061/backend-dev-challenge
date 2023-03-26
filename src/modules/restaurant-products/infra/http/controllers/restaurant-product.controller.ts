@@ -6,10 +6,10 @@ import {
   UploadedFile,
   UseInterceptors,
   Res,
-  Param,
   Get,
   Delete,
   Put,
+  Query,
 } from '@nestjs/common';
 
 import { CreateRestaurantProductService } from '../../../services/create-restaurant-product.service';
@@ -34,7 +34,7 @@ export class RestaurantProductController {
     private deleteUniqueRestaurantProductService: DeleteUniqueRestaurantProductService,
     private updateUniqueRestaurantProductService: UpdateUniqueRestaurantProductService,
   ) {}
-  @Post('/restaurant/products/create')
+  @Post('/restaurants/products/create')
   @UseInterceptors(FileInterceptor('restaurant_product[profile_photo]'))
   async createRestaurantProduct(
     @Body() data: CreateRestaurantProductServiceData,
@@ -105,10 +105,10 @@ export class RestaurantProductController {
     return response.status(201).json(restaurantProduct);
   }
 
-  @Get('/restaurant/:restaurant_id/products/list-many')
+  @Get('/restaurants/products/list-many')
   async listProductsFromRestaurant(
-    @Param('restaurant_id')
-    restaurant_id: string,
+    @Query()
+    query: { restaurant_id: string },
     @Res() response: Response,
   ) {
     const validator = zod.string({
@@ -116,21 +116,21 @@ export class RestaurantProductController {
     });
 
     try {
-      validator.parse(restaurant_id);
+      validator.parse(query.restaurant_id);
     } catch (error) {
       throw new BadRequestException(error.errors);
     }
 
     const restaurantProduct =
-      await this.listProductsFromRestaurantService.execute(restaurant_id);
+      await this.listProductsFromRestaurantService.execute(query.restaurant_id);
 
     return response.status(200).json(restaurantProduct);
   }
 
-  @Get('/restaurant/products/:restaurant_product_id/list-unique')
+  @Get('/restaurants/products/list-unique')
   async listUniqueRestaurantProduct(
-    @Param('restaurant_product_id')
-    restaurant_product_id: string,
+    @Query()
+    query: { restaurant_product_id: string },
     @Res() response: Response,
   ) {
     const validator = zod.string({
@@ -138,23 +138,23 @@ export class RestaurantProductController {
     });
 
     try {
-      validator.parse(restaurant_product_id);
+      validator.parse(query.restaurant_product_id);
     } catch (error) {
       throw new BadRequestException(error.errors);
     }
 
     const restaurantProduct =
       await this.listUniqueRestaurantProductService.execute(
-        restaurant_product_id,
+        query.restaurant_product_id,
       );
 
     return response.status(200).json(restaurantProduct);
   }
 
-  @Delete('/restaurant/products/:restaurant_product_id/delete-unique')
+  @Delete('/restaurants/products/delete-unique')
   async deleteUniqueRestaurantProduct(
-    @Param('restaurant_product_id')
-    restaurant_product_id: string,
+    @Query()
+    query: { restaurant_product_id: string },
     @Res() response: Response,
   ) {
     const validator = zod.string({
@@ -162,25 +162,25 @@ export class RestaurantProductController {
     });
 
     try {
-      validator.parse(restaurant_product_id);
+      validator.parse(query.restaurant_product_id);
     } catch (error) {
       throw new BadRequestException(error.errors);
     }
 
     const restaurantProduct =
       await this.deleteUniqueRestaurantProductService.execute(
-        restaurant_product_id,
+        query.restaurant_product_id,
       );
 
     return response.status(200).json(restaurantProduct);
   }
 
-  @Put('/restaurant/products/:restaurant_product_id/update-unique')
+  @Put('/restaurants/products/update-unique')
   @UseInterceptors(FileInterceptor('data[restaurant_product][profile_photo]'))
   async updateUniqueRestaurantProduct(
     @Body() { data }: UpdateUniqueRestaurantProductServiceData,
-    @Param('restaurant_product_id')
-    restaurant_product_id: string,
+    @Query()
+    query: { restaurant_product_id: string },
     @UploadedFile() profile_photo: Express.Multer.File,
     @Res() response: Response,
   ) {
@@ -240,7 +240,7 @@ export class RestaurantProductController {
 
     try {
       validator.parse({
-        restaurant_product_id,
+        restaurant_product_id: query.restaurant_product_id,
         ..._data,
       });
     } catch (error) {
@@ -250,7 +250,7 @@ export class RestaurantProductController {
     const restaurantProduct =
       await this.updateUniqueRestaurantProductService.execute({
         data: _data,
-        restaurant_product_id,
+        restaurant_product_id: query.restaurant_product_id,
       });
 
     return response.status(201).json(restaurantProduct);
