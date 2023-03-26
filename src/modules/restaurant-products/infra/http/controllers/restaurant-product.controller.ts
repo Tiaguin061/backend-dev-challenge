@@ -238,8 +238,6 @@ export class RestaurantProductController {
       },
     };
 
-    console.log(_data);
-
     try {
       validator.parse({
         restaurant_product_id,
