@@ -5,6 +5,8 @@ import { ListUniqueRestaurantProductService } from '../../services/list-unique-r
 import { Module } from '@nestjs/common';
 import { ProviderModule } from '@root/shared/providers/provider.module';
 import { RestaurantDatabaseModule } from '@root/modules/restaurant/infra/database/database.module';
+import { RestaurantProductCategoryDatabaseModule } from '@root/modules/restaurant-product-category/infra/database/database.module';
+import { RestaurantProductCategoryRepository } from '@root/modules/restaurant-product-category/domain/repositories/restaurant-product-category-repository';
 import { RestaurantProductController } from './controllers/restaurant-product.controller';
 import { RestaurantProductDatabaseModule } from '../database/database.module';
 import { RestaurantProductPromotionDatabaseModule } from '@root/modules/restaurant-product-promotion/infra/database/database.module';
@@ -19,6 +21,7 @@ import { UpdateUniqueRestaurantProductService } from '../../services/update-uniq
     RestaurantProductDatabaseModule,
     RestaurantProductPromotionDatabaseModule,
     RestaurantDatabaseModule,
+    RestaurantProductCategoryDatabaseModule,
     ProviderModule,
   ],
   controllers: [RestaurantProductController],
@@ -30,18 +33,21 @@ import { UpdateUniqueRestaurantProductService } from '../../services/update-uniq
         restaurantProductPromotionRepository: RestaurantProductPromotionRepository,
         storageProvider: StorageProvider,
         restaurantRepository: RestaurantRepository,
+        restaurantProductCategoryRepository: RestaurantProductCategoryRepository,
       ): CreateRestaurantProductService =>
         new CreateRestaurantProductService(
           restaurantProductRepository,
           restaurantProductPromotionRepository,
           storageProvider,
           restaurantRepository,
+          restaurantProductCategoryRepository,
         ),
       inject: [
         RestaurantProductRepository,
         RestaurantProductPromotionRepository,
         StorageProvider,
         RestaurantRepository,
+        RestaurantProductCategoryRepository,
       ],
     },
     {
@@ -58,16 +64,19 @@ import { UpdateUniqueRestaurantProductService } from '../../services/update-uniq
         restaurantProductRepository: RestaurantProductRepository,
         storageProvider: StorageProvider,
         restaurantProductPromotionRepository: RestaurantProductPromotionRepository,
+        restaurantProductCategoryRepository: RestaurantProductCategoryRepository,
       ): UpdateUniqueRestaurantProductService =>
         new UpdateUniqueRestaurantProductService(
           restaurantProductRepository,
           storageProvider,
           restaurantProductPromotionRepository,
+          restaurantProductCategoryRepository,
         ),
       inject: [
         RestaurantProductRepository,
         StorageProvider,
         RestaurantProductPromotionRepository,
+        RestaurantProductCategoryRepository,
       ],
     },
     {
